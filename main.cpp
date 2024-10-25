@@ -27,7 +27,7 @@ Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle) {
 	float sin = std::sin(angle);
 	float oneMinusCos = 1.0f - cos;
 
-	// 正規化された軸
+	// 正規化軸
 	Vector3 normalizedAxis = Normalize(axis);
 
 	float x = normalizedAxis.x;
@@ -37,17 +37,17 @@ Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle) {
 	Matrix4x4 rotateMatrix = {};
 
 	rotateMatrix.m[0][0] = cos + x * x * oneMinusCos;
-	rotateMatrix.m[0][1] = x * y * oneMinusCos - z * sin;
-	rotateMatrix.m[0][2] = x * z * oneMinusCos + y * sin;
+	rotateMatrix.m[0][1] = x * y * oneMinusCos + z * sin;
+	rotateMatrix.m[0][2] = x * z * oneMinusCos - y * sin;
 	rotateMatrix.m[0][3] = 0.0f;
 
-	rotateMatrix.m[1][0] = y * x * oneMinusCos + z * sin;
+	rotateMatrix.m[1][0] = y * x * oneMinusCos - z * sin;
 	rotateMatrix.m[1][1] = cos + y * y * oneMinusCos;
-	rotateMatrix.m[1][2] = y * z * oneMinusCos - x * sin;
+	rotateMatrix.m[1][2] = y * z * oneMinusCos + x * sin;
 	rotateMatrix.m[1][3] = 0.0f;
 
-	rotateMatrix.m[2][0] = z * x * oneMinusCos - y * sin;
-	rotateMatrix.m[2][1] = z * y * oneMinusCos + x * sin;
+	rotateMatrix.m[2][0] = z * x * oneMinusCos + y * sin;  
+	rotateMatrix.m[2][1] = z * y * oneMinusCos - x * sin;  
 	rotateMatrix.m[2][2] = cos + z * z * oneMinusCos;
 	rotateMatrix.m[2][3] = 0.0f;
 
