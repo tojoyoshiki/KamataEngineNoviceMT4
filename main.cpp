@@ -2,7 +2,7 @@
 #include <cmath>
 #include <assert.h>
 
-const char kWindowTitle[] = "学籍番号";
+const char kWindowTitle[] = "LE2C_17_トウジョウ_ヨシキ";
 
 struct Vector3 {
     float x, y, z;
@@ -12,17 +12,14 @@ struct Matrix4x4 {
     float m[4][4];
 };
 
-// ベクトルの内積を計算
 float Dot(const Vector3& v1, const Vector3& v2) {
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
-// ベクトルの長さを計算
 float Length(const Vector3& v) {
     return std::sqrt(Dot(v, v));
 }
 
-// ベクトルのクロス積を計算
 Vector3 Cross(const Vector3& v1, const Vector3& v2) {
     return { v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x };
 }
@@ -37,13 +34,13 @@ Vector3 Normalize(const Vector3& v) {
 // 方向ベクトルを回転する行列を計算
 Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to) {
     Vector3 cross = Cross(from, to);
-    float cosTheta = Dot(from, to);  // cos(θ)の計算
-    float sinTheta = Length(cross);  // sin(θ)の計算
+    float cosTheta = Dot(from, to);
+    float sinTheta = Length(cross);
 
     float epsilon = 1e-6f;
     Vector3 axis = {};
 
-    if (std::abs(cosTheta + 1.0f) <= epsilon) {  // 180度回転の処理
+    if (std::abs(cosTheta + 1.0f) <= epsilon) {
         if (std::abs(from.x) > epsilon || std::abs(from.y) > epsilon) {
             axis = { -from.y, from.x, 0.0f };
         }
@@ -112,7 +109,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     // 更新用のベクトルとスカラーの定義
     Vector3 v1{ 1.0f, 3.0f, -5.0f };
     Vector3 v2{ 4.0f, -1.0f, 2.0f };
-   // float k = 4.0f;
 
     // ウィンドウの×ボタンが押されるまでループ
     while (Novice::ProcessMessage() == 0) {
