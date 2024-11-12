@@ -1,9 +1,19 @@
 #include <Novice.h>
 #include <DirectXMath.h>
+#include <cmath>
+#include <assert.h>
 
 using Quaternion = DirectX::XMFLOAT4;
 
 const char kWindowTitle[] = "LE2C_17_トウジョウ_ヨシキ_タイトル";
+
+struct Vector3 {
+    float x, y, z;
+};
+
+struct Matrix4x4 {
+    float m[4][4];
+};
 
 // クォータニオンの積
 Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs) {
@@ -43,7 +53,25 @@ Quaternion Inverse(const Quaternion& quaternion) {
     float normSquared = Norm(quaternion);
     normSquared *= normSquared;
     return Quaternion{ conjugate.x / normSquared, conjugate.y / normSquared,
-                      conjugate.z / normSquared, conjugate.w / normSquared };
+                       conjugate.z / normSquared, conjugate.w / normSquared };
+}
+
+// クォータニオンの内容を表示
+void QuaternionScreenPrintf(int x, int y, const Quaternion& q, const char* label) {
+    Novice::ScreenPrintf(x, y, "%s: (%f, %f, %f, %f)", label, q.x, q.y, q.z, q.w);
+}
+
+static const int kRowHeight = 20;
+static const int kColumnWidth = 60;
+void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label) {
+    Novice::ScreenPrintf(x, y, "%s", label);
+    for (int row = 0; row < 4; ++row) {
+        for (int column = 0; column < 4; ++column) {
+            Novice::ScreenPrintf(
+                x + column * kColumnWidth, y + (row + 1) * kRowHeight, "%6.03f",
+                matrix.m[row][column]);
+        }
+    }
 }
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -78,19 +106,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         Quaternion mul2 = Multiply(q2, q1);
         float norm = Norm(q1);
 
-        // 値を表示
-        Novice::DrawFormatString(0, 0, 0xFFFFFFFF, "q1: (%f, %f, %f, %f)", q1.x, q1.y, q1.z, q1.w);
-        Novice::DrawFormatString(0, 20, 0xFFFFFFFF, "q2: (%f, %f, %f, %f)", q2.x, q2.y, q2.z, q2.w);
-        Novice::DrawFormatString(0, 40, 0xFFFFFFFF, "Identity: (%f, %f, %f, %f)", identity.x, identity.y, identity.z, identity.w);
-        Novice::DrawFormatString(0, 60, 0xFFFFFFFF, "Conjugate of q1: (%f, %f, %f, %f)", conj.x, conj.y, conj.z, conj.w);
-        Novice::DrawFormatString(0, 80, 0xFFFFFFFF, "Inverse of q1: (%f, %f, %f, %f)", inv.x, inv.y, inv.z, inv.w);
-        Novice::DrawFormatString(0, 100, 0xFFFFFFFF, "Normalized q1: (%f, %f, %f, %f)", normal.x, normal.y, normal.z, normal.w);
-        Novice::DrawFormatString(0, 120, 0xFFFFFFFF, "q1 * q2: (%f, %f, %f, %f)", mul1.x, mul1.y, mul1.z, mul1.w);
-        Novice::DrawFormatString(0, 140, 0xFFFFFFFF, "q2 * q1: (%f, %f, %f, %f)", mul2.x, mul2.y, mul2.z, mul2.w);
-        Novice::DrawFormatString(0, 160, 0xFFFFFFFF, "Norm of q1: %f", norm);
-
         ///
         /// ↑更新処理ここまで
+        ///
+        
+        /// 
+        /// ↓描画処理ここから
+        ///
+
+        // クォータニオンの演算結果を表示
+        QuaternionScreenPrintf(0, 0, q1, "q1");
+        QuaternionScreenPrintf(0, 20, q2, "q2");
+        QuaternionScreenPrintf(0, 40, identity, "Identity");
+        QuaternionScreenPrintf(0, 60, conj, "Conjugate of q1");
+        QuaternionScreenPrintf(0, 80, inv, "Inverse of q1");
+        QuaternionScreenPrintf(0, 100, normal, "Normalized q1");
+        QuaternionScreenPrintf(0, 120, mul2, "Multiply(q1 * q2)");
+        QuaternionScreenPrintf(0, 140, mul1, "Multiply(q2 * q1)");
+        Novice::ScreenPrintf(0, 160, "Norm of q1: %f", norm);
+
+        /// 
+        /// ↑描画処理ここまで
         ///
 
         // フレームの終了
