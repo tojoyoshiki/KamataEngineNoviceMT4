@@ -11,7 +11,9 @@ struct Vector3{
 	float z;
 }
 
-
+struct Matrix4x4 {
+	float m[3][3];
+};
 
 Quarternion MakeRotateAxisAngleQuarternion(
 	const Vector3& axis, float angle);
