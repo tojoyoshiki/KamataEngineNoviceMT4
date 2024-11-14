@@ -5,14 +5,21 @@
 
 const char kWindowTitle[] = "LE2C_17_トウジョウ_ヨシキ_タイトル";
 
-float Vector3{
+struct Vector3{
 	float x;
 	float y;
 	float z;
 }
 
+
+
 Quarternion MakeRotateAxisAngleQuarternion(
 	const Vector3& axis, float angle);
+
+Vector3 RotateVector(const Vector3& vector, 
+	const Quarternion& quarternion);
+
+Matrix4x4 MakeRotateMatrix(const Quarternion& quarternion);
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
