@@ -1,8 +1,18 @@
 #include <Novice.h>
+#include <DirectXMath.h>
+#include <cmath>
+#include <assert.h>
 
 const char kWindowTitle[] = "LE2C_17_トウジョウ_ヨシキ_タイトル";
 
+float Vector3{
+	float x;
+	float y;
+	float z;
+}
 
+Quarternion MakeRotateAxisAngleQuarternion(
+	const Vector3& axis, float angle);
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
