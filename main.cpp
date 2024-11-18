@@ -41,7 +41,8 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to) {
     Vector3 axis = {};
 
     if (std::abs(cosTheta + 1.0f) <= epsilon) {
-        if (std::abs(from.x) > epsilon || std::abs(from.y) > epsilon) {
+        if (std::abs(from.x) > epsilon || 
+            std::abs(from.y) > epsilon) {
             axis = { -from.y, from.x, 0.0f };
         }
         else {
