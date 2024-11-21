@@ -60,7 +60,7 @@ Quaternion Slerp(const Quaternion& q0Input, const Quaternion& q1Input, float t) 
 		dot = -dot;
 	}
 
-	// 内積が1に近い場合（θが非常に小さい場合）
+	// 内積が1に近い場合(θが非常に小さい場合)
 	if (dot > 0.9995f) {
 		// 線形補間を使用
 		return Quaternion{
@@ -71,7 +71,7 @@ Quaternion Slerp(const Quaternion& q0Input, const Quaternion& q1Input, float t) 
 		};
 	}
 
-	// θ を計算
+	// θを計算
 	float theta = std::acos(dot);
 	float sinTheta = std::sin(theta);
 
