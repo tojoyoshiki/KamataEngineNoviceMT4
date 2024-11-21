@@ -5,13 +5,8 @@
 
 const char kWindowTitle[] = "LE2C_17_トウジョウ_ヨシキ_タイトル";
 
+using Vector3 = DirectX::XMFLOAT3;
 using Quaternion = DirectX::XMFLOAT4;
-
-struct Vector3 {
-	float x;
-	float y;
-	float z;
-};
 
 //表示
 void QuaternionScreenPrintf(int x, int y, 
