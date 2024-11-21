@@ -32,7 +32,8 @@ Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs) {
 }
 
 // クォータニオンを生成する関数
-Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle) {
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis,
+	float angle) {
 	float sinHalfAngle = sin(angle / 2.0f);
 	float cosHalfAngle = cos(angle / 2.0f);
 	return Quaternion{
@@ -44,7 +45,8 @@ Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle) {
 }
 
 //球面線形補間
-Quaternion Slerp(const Quaternion& q0Input, const Quaternion& q1Input, float t) {
+Quaternion Slerp(const Quaternion& q0Input, 
+	const Quaternion& q1Input, float t) {
 	Quaternion q0 = q0Input;
 	Quaternion q1 = q1Input;
 
