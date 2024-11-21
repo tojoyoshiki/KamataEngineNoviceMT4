@@ -32,7 +32,8 @@ Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs) {
 }
 
 // クォータニオンを生成する関数
-Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle) {
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis,
+	float angle) {
 	float sinHalfAngle = sin(angle / 2.0f);
 	float cosHalfAngle = cos(angle / 2.0f);
 	return Quaternion{
@@ -44,7 +45,8 @@ Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle) {
 }
 
 //球面線形補間
-Quaternion Slerp(const Quaternion& q0Input, const Quaternion& q1Input, float t) {
+Quaternion Slerp(const Quaternion& q0Input, 
+	const Quaternion& q1Input, float t) {
 	Quaternion q0 = q0Input;
 	Quaternion q1 = q1Input;
 
@@ -60,13 +62,13 @@ Quaternion Slerp(const Quaternion& q0Input, const Quaternion& q1Input, float t) 
 		dot = -dot;
 	}
 
-	// θ を計算（acos は逆三角関数のアークコサイン）
+	// θを計算（acos は逆三角関数のアークコサイン）
 	float theta = std::acos(dot);
 
 	// 補間係数を計算
 	float sinTheta = std::sin(theta);
 
-	// θ が小さい場合、線形補間を使用 (ゼロ除算を回避)
+	// θが小さい場合、線形補間を使用 (ゼロ除算を回避)
 	if (sinTheta < 1e-6) {
 		return Quaternion{
 			q0.x * (1.0f - t) + q1.x * t,
