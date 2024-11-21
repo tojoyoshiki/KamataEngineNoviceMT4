@@ -60,21 +60,20 @@ Quaternion Slerp(const Quaternion& q0Input, const Quaternion& q1Input, float t) 
 		dot = -dot;
 	}
 
-	// θ を計算（acos は逆三角関数のアークコサイン）
-	float theta = std::acos(dot);
-
-	// 補間係数を計算
-	float sinTheta = std::sin(theta);
-
-	// θ が小さい場合、線形補間を使用 (ゼロ除算を回避)
-	if (sinTheta < 1e-6) {
+	// 内積が1に近い場合（θが非常に小さい場合）
+	if (dot > 0.9995f) {
+		// 線形補間を使用
 		return Quaternion{
 			q0.x * (1.0f - t) + q1.x * t,
 			q0.y * (1.0f - t) + q1.y * t,
 			q0.z * (1.0f - t) + q1.z * t,
-			q0.w * (1.0f - t) + q1.w * t
+			q0.w * (1.0f - t) + q1.w * t,
 		};
 	}
+
+	// θ を計算
+	float theta = std::acos(dot);
+	float sinTheta = std::sin(theta);
 
 	// 球面線形補間のスケールを計算
 	float scale0 = std::sin((1.0f - t) * theta) / sinTheta;
@@ -85,7 +84,7 @@ Quaternion Slerp(const Quaternion& q0Input, const Quaternion& q1Input, float t) 
 		q0.x * scale0 + q1.x * scale1,
 		q0.y * scale0 + q1.y * scale1,
 		q0.z * scale0 + q1.z * scale1,
-		q0.w * scale0 + q1.w * scale1
+		q0.w * scale0 + q1.w * scale1,
 	};
 }
 
@@ -113,7 +112,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		Quaternion rotation0 = MakeRotateAxisAngleQuaternion({ 0.71f,0.71f,0.0f }, 0.3f);
-		Quaternion rotation1 = MakeRotateAxisAngleQuaternion({ 0.71f,0.0f,0.71f }, 3.141592f);
+		Quaternion rotation1 = { -rotation0.x,-rotation0.y,-rotation0.z,-rotation0.w };
 
 		Quaternion interpolate0 = Slerp(rotation0, rotation1, 0.0f);
 		Quaternion interpolate1 = Slerp(rotation0, rotation1, 0.3f);
