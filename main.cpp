@@ -78,9 +78,9 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion) {
 }
 //Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion) {
 //    Matrix4x4 result = {};
-//    float xx = quaternion.x * quaternion.x;
-//    float yy = quaternion.y * quaternion.y;
-//    float zz = quaternion.z * quaternion.z;
+//    float q = quaternion.x * quaternion.x;
+//    float r = quaternion.y * quaternion.y;
+//    float w = quaternion.z * quaternion.z;
 //    float xy = quaternion.x * quaternion.y;
 //    float xz = quaternion.x * quaternion.z;
 //    float yz = quaternion.y * quaternion.z;
@@ -88,19 +88,19 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion) {
 //    float wy = quaternion.w * quaternion.y;
 //    float wz = quaternion.w * quaternion.z;
 //
-//    result.m[0][0] = 1.0f - 2.0f * (yy + zz);
+//    result.m[0][0] = 1.0f - 2.0f * (r + w);
 //    result.m[0][1] = 2.0f * (xy - wz);
 //    result.m[0][2] = 2.0f * (xz + wy);
 //    result.m[0][3] = 0.0f;
 //
 //    result.m[1][0] = 2.0f * (xy + wz);
-//    result.m[1][1] = 1.0f - 2.0f * (xx + zz);
+//    result.m[1][1] = 1.0f - 2.0f * (q + w);
 //    result.m[1][2] = 2.0f * (yz - wx);
 //    result.m[1][3] = 0.0f;
 //
 //    result.m[2][0] = 2.0f * (xz - wy);
 //    result.m[2][1] = 2.0f * (yz + wx);
-//    result.m[2][2] = 1.0f - 2.0f * (xx + yy);
+//    result.m[2][2] = 1.0f - 2.0f * (q + r);
 //    result.m[2][3] = 0.0f;
 //
 //    result.m[3][0] = 0.0f;
