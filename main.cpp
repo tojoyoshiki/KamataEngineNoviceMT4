@@ -45,6 +45,29 @@ Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion) {
     DirectX::XMStoreFloat3(reinterpret_cast<DirectX::XMFLOAT3*>(&result), rotatedVec);
     return result;
 }
+//使ってないやつ
+//Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion) {
+//    Quaternion conjugate = { -quaternion.x, -quaternion.y, -quaternion.z, quaternion.w };
+//
+//    // クォータニオンとベクトルを掛ける
+//    Quaternion vecQuat = { vector.x, vector.y, vector.z, 0.0f };
+//    Quaternion temp = {
+//        quaternion.w * vecQuat.x + quaternion.x * vecQuat.w + quaternion.y * vecQuat.z - quaternion.z * vecQuat.y,
+//        quaternion.w * vecQuat.y - quaternion.x * vecQuat.z + quaternion.y * vecQuat.w + quaternion.z * vecQuat.x,
+//        quaternion.w * vecQuat.z + quaternion.x * vecQuat.y - quaternion.y * vecQuat.x + quaternion.z * vecQuat.w,
+//        quaternion.w * vecQuat.w - quaternion.x * vecQuat.x - quaternion.y * vecQuat.y - quaternion.z * vecQuat.z
+//    };
+//
+//    Quaternion result = {
+//        temp.w * conjugate.x + temp.x * conjugate.w + temp.y * conjugate.z - temp.z * conjugate.y,
+//        temp.w * conjugate.y - temp.x * conjugate.z + temp.y * conjugate.w + temp.z * conjugate.x,
+//        temp.w * conjugate.z + temp.x * conjugate.y - temp.y * conjugate.x + temp.z * conjugate.w,
+//        temp.w * conjugate.w - temp.x * conjugate.x - temp.y * conjugate.y - temp.z * conjugate.z
+//    };
+//
+//    return Vector3{ result.x, result.y, result.z };
+//}
+
 
 // クォータニオンを回転行列に変換する関数
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion) {
@@ -53,6 +76,40 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion) {
     DirectX::XMStoreFloat4x4(reinterpret_cast<DirectX::XMFLOAT4X4*>(&result), rotationMatrix);
     return result;
 }
+//Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion) {
+//    Matrix4x4 result = {};
+//    float xx = quaternion.x * quaternion.x;
+//    float yy = quaternion.y * quaternion.y;
+//    float zz = quaternion.z * quaternion.z;
+//    float xy = quaternion.x * quaternion.y;
+//    float xz = quaternion.x * quaternion.z;
+//    float yz = quaternion.y * quaternion.z;
+//    float wx = quaternion.w * quaternion.x;
+//    float wy = quaternion.w * quaternion.y;
+//    float wz = quaternion.w * quaternion.z;
+//
+//    result.m[0][0] = 1.0f - 2.0f * (yy + zz);
+//    result.m[0][1] = 2.0f * (xy - wz);
+//    result.m[0][2] = 2.0f * (xz + wy);
+//    result.m[0][3] = 0.0f;
+//
+//    result.m[1][0] = 2.0f * (xy + wz);
+//    result.m[1][1] = 1.0f - 2.0f * (xx + zz);
+//    result.m[1][2] = 2.0f * (yz - wx);
+//    result.m[1][3] = 0.0f;
+//
+//    result.m[2][0] = 2.0f * (xz - wy);
+//    result.m[2][1] = 2.0f * (yz + wx);
+//    result.m[2][2] = 1.0f - 2.0f * (xx + yy);
+//    result.m[2][3] = 0.0f;
+//
+//    result.m[3][0] = 0.0f;
+//    result.m[3][1] = 0.0f;
+//    result.m[3][2] = 0.0f;
+//    result.m[3][3] = 1.0f;
+//
+//    return result;
+//}
 
 // Quaternion用の正規化関数
 float Norm(const Quaternion& quaternion) {
@@ -72,6 +129,13 @@ Vector3 RotateByMatrix(const Vector3& vector, const Matrix4x4& matrix) {
         vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2]
     };
 }
+//Vector3 RotateByMatrix(const Vector3& vector, const Matrix4x4& matrix) {
+//    return Vector3{
+//        vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0],
+//        vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1],
+//        vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2]
+//    };
+//}
 
 // 表示関数
 void QuaternionScreenPrintf(int x, int y, const Quaternion& q, const char* label) {
